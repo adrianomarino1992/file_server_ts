@@ -1,7 +1,9 @@
+import { REFUSED } from 'dns';
 import 'reflect-metadata';
 
 import { HTTPVerbs } from '../../enums/httpVerbs/HttpVerbs';
 import IController from '../../interfaces/IController';
+import IMidleware from '../../midlewares/IMidleware';
 
 export default class ControllersDecorators
 {
@@ -14,6 +16,8 @@ export default class ControllersDecorators
     private static ActionVerbKeyMetadata = "meta:actionVerb";
     private static ActionNameKeyMetadata = "meta:actionName";
     private static ArgumentsHandlerKeyMetadata = "meta:argHandler";
+    private static ControllerMidlewaresKeyMetadata = "meta:controllerMidlewaresKey";
+    private static ActionsMidlewaresKeyMetadata = "meta:actionMidlewaresKey";
     
 
     public static Route(route : string)  
@@ -23,6 +27,41 @@ export default class ControllersDecorators
             Reflect.defineMetadata(ControllersDecorators.RouteKeyMetadata, route, target);
             
         }
+    }
+
+    public static Use(midleware : IMidleware)  
+    {
+        return function( target : Function)
+        {
+            let current : IMidleware[] = Reflect.getMetadata(ControllersDecorators.ControllerMidlewaresKeyMetadata, target) ?? [];
+
+            current.push(midleware);
+
+            Reflect.defineMetadata(ControllersDecorators.ControllerMidlewaresKeyMetadata, current, target);            
+        }
+    }
+
+    public static GetMidlewares(controller : IController) : IMidleware[]
+    {
+       return Reflect.getMetadata(ControllersDecorators.ControllerMidlewaresKeyMetadata, controller.constructor) ?? [];
+    }
+
+    public static Before(midleware : IMidleware)  
+    {
+        return function( target : Object, methodName : string, propertyDescriptor : PropertyDescriptor)
+        {
+            let current : IMidleware[] = Reflect.getMetadata(ControllersDecorators.ActionsMidlewaresKeyMetadata, target, methodName) ?? [];
+
+            current.push(midleware);
+
+            ControllersDecorators.SetMetaData(ControllersDecorators.ActionsMidlewaresKeyMetadata, target, methodName, current);
+            
+        }
+    }
+
+    public static GetBefores(controller : IController, methodName : string) : IMidleware[]
+    {
+       return this.GetMetaData<IMidleware[]>(ControllersDecorators.ActionsMidlewaresKeyMetadata, controller, methodName) ?? [];
     }
 
     public static GetRoute(controller : IController) : string | undefined

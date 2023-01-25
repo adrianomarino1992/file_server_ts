@@ -4,6 +4,7 @@ import ControllersDecorators from '../../decorators/controllers/ControllerDecora
 import DependecyService from '../../dependencyInjection/DependecyService';
 import IApplication from "../../interfaces/IApplication";
 import { HTTPVerbs } from "../../enums/httpVerbs/HttpVerbs";
+import IMidleware from "../../midlewares/IMidleware";
 
 export class ControllerBase implements IController
 {
@@ -59,6 +60,7 @@ export class ControllerBase implements IController
         if(!route)
             return;
 
+
         for(let method of methods)
         {
             let action = ControllersDecorators.GetAction(empty, method.toString());
@@ -80,6 +82,18 @@ export class ControllerBase implements IController
 
             (application.Express as any)[verb.toString().toLowerCase()](`${route}${action}`, (req : Request, resp : Response) => 
             {
+
+                let midlewares = ControllersDecorators.GetMidlewares(empty).reverse();
+
+                midlewares.push(...ControllersDecorators.GetBefores(empty, method.toString()).reverse());
+
+                if(midlewares)
+                {
+                    for(let method of midlewares)
+                    {
+                        method(req);
+                    }
+                }
 
                 let args = ControllersDecorators.GetArgumentsHandler(empty, method.toString());
                 let params = [];

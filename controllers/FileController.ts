@@ -37,6 +37,7 @@ export class FileController extends ControllerBase
     {
         try{
 
+            this.Request.params
             this.OK(await this._fileService.GetAllForders(folder))
 
         }

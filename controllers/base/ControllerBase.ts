@@ -4,7 +4,7 @@ import ControllersDecorators from '../../decorators/controllers/ControllerDecora
 import DependecyService from '../../dependencyInjection/DependecyService';
 import IApplication from "../../interfaces/IApplication";
 import { HTTPVerbs } from "../../enums/httpVerbs/HttpVerbs";
-import IMidleware from "../../midlewares/IMidleware";
+
 
 export class ControllerBase implements IController
 {

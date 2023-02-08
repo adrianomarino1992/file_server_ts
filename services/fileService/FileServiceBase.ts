@@ -1,3 +1,4 @@
+import { IDirectory } from "../../interfaces/entities/IDirectory";
 
 export default abstract class FileServiceBase 
 {
@@ -9,6 +10,7 @@ export default abstract class FileServiceBase
     public abstract FileExists(file: string): Promise<boolean>;
     public abstract DirectoryExists(path: string): Promise<boolean>;
     public abstract CreateDirectory(path: string): Promise<void>;
+    public abstract GetDefaultDir(): string;
    
 }
 

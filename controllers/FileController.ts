@@ -5,6 +5,7 @@ import FileServiceBase from "../services/fileService/FileServiceBase";
 import Path from 'path';
 
 import Formidable from "formidable";
+import { IDirectory } from "../interfaces/entities/IDirectory";
 
 @CD.Route("/fs")
 export class FileController extends ControllerBase
@@ -13,6 +14,21 @@ export class FileController extends ControllerBase
     constructor(private _fileService : FileServiceBase)
     {
         super();
+    }
+
+    @CD.Action("/default-dir")    
+    public async GetDefaultDir() : Promise<void>
+    {
+        try{
+
+            this.OK(await this._fileService.GetDefaultDir())
+
+        }
+        catch(err)
+        {
+            this.Error({error : (err as Error).message});
+            
+        }
     }
     
     @CD.Action("/files")
@@ -36,8 +52,7 @@ export class FileController extends ControllerBase
     public async GetAllFolders(folder : string) : Promise<void>
     {
         try{
-
-            this.Request.params
+            
             this.OK(await this._fileService.GetAllForders(folder))
 
         }

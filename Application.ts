@@ -40,7 +40,9 @@ export default class Application implements IApplication
 
     public Configure(): void {
 
-        this.Express.use(ExpressModule.json({limit : 50 * 1024 * 1024}));        
+        this.Express.use(ExpressModule.json({limit : 50 * 1024 * 1024}));    
+        
+        this.Express.use(require('cors')());
 
         DependecyService.RegisterFor(FileServiceBase, FileService);
 

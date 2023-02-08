@@ -2,12 +2,21 @@
 import File from 'fs';
 import FileAsync from 'fs/promises';
 import Path from 'path';
+import {getDesktopFolder} from 'platform-folders'
+
 import FileServiceBase from "./FileServiceBase";
 
 
 export default class FileService extends FileServiceBase
 {
     
+
+    public override GetDefaultDir(): string {
+        
+        return getDesktopFolder();
+    }
+
+
     public override CreateDirectory(path: string): Promise<void> {
 
         return new Promise<void>(async (resolve, reject) => 
@@ -62,7 +71,7 @@ export default class FileService extends FileServiceBase
 
             let files = await FileAsync.readdir(origin, {withFileTypes : true});
 
-            return resolve(files.filter(u => u.isFile()).map(u => u.name));
+            return resolve(files.filter(u => u.isFile()).map(u => Path.join(origin, u.name)));
 
             }catch(err)
             {
@@ -80,9 +89,9 @@ export default class FileService extends FileServiceBase
 
             try{
 
-            let files = await FileAsync.readdir(origin, {withFileTypes : true});
+            let files = await FileAsync.readdir(origin, {withFileTypes : true});           
 
-            return resolve(files.filter(u => u.isDirectory()).map(u => u.name));
+            return resolve(files.filter(u => u.isDirectory()).map(u => Path.join(origin, u.name)));
 
             }catch(err)
             {

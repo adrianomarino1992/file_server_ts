@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "file server",
   "main": "index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
   "scripts": {
     "test": "jest",
     "dev": "tsc -p tsconfig.json && node ./dist/Index.js",

@@ -1,6 +1,5 @@
 import { ControllerTest } from "../../classes/Controller";
-import ControllersDecorators from "../../../decorators/controllers/ControllerDecorators";
-import { HTTPVerbs } from "../../../enums/httpVerbs/HttpVerbs";
+import { ControllerBase, ControllersDecorators, IApplication, HTTPVerbs } from "web_api_base";
 
 describe('testing controllers decorators', ()=>
 {

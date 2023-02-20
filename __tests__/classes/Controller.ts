@@ -1,9 +1,5 @@
-/* istanbul ignore next */
+import { ControllerBase, ControllersDecorators, IApplication, HTTPVerbs } from "web_api_base";
 
-import { ControllerBase } from "../../controllers/base/ControllerBase";
-import ControllersDecorators from "../../decorators/controllers/ControllerDecorators";
-import { HTTPVerbs } from "../../enums/httpVerbs/HttpVerbs";
-import IApplication from "../../interfaces/IApplication";
 import {Request, Response} from 'express'
 
 @ControllersDecorators.Route("/test")

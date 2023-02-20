@@ -1,11 +1,9 @@
-import CD from "../decorators/controllers/ControllerDecorators";
-import { ControllerBase } from "./base/ControllerBase";
-import { HTTPVerbs as verbs } from "../enums/httpVerbs/HttpVerbs";
+import { ControllerBase, ControllersDecorators as CD, HTTPVerbs as verbs } from "web_api_base";
 import FileServiceBase from "../services/fileService/FileServiceBase";
 import Path from 'path';
 
 import Formidable from "formidable";
-import { IDirectory } from "../interfaces/entities/IDirectory";
+
 
 @CD.Route("/fs")
 export class FileController extends ControllerBase

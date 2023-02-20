@@ -1,6 +1,5 @@
-import CD from "../decorators/controllers/ControllerDecorators";
-import { ControllerBase } from "./base/ControllerBase";
-import { HTTPVerbs as verbs } from "../enums/httpVerbs/HttpVerbs";
+import { ControllerBase, ControllersDecorators as CD, HTTPVerbs as verbs } from "web_api_base";
+
 import FileServiceBase from "../services/fileService/FileServiceBase";
 
 

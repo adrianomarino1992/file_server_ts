@@ -17,6 +17,7 @@ export default class App extends Application
     public override Configure(appConfig: IApplicationConfiguration): void
     {      
         appConfig.Host = "0.0.0.0";
+        
         appConfig.Port = 5555;  
        
         this.UseCors();
@@ -33,7 +34,7 @@ export default class App extends Application
         {
             let fs = DependecyService.Resolve<FileServiceBase>(FileServiceBase);
             return new StatusController(fs);
-        })
+        });       
 
         DependecyService.Register(FileController, ()=>
         {

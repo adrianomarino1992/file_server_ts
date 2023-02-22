@@ -1,12 +1,12 @@
-import { ControllerBase, ControllersDecorators as CD, HTTPVerbs as verbs } from "web_api_base";
+import { ControllerBase, HTTPVerbs as verbs,  Use, Verb, Action, Route, Argument  } from "web_api_base";
 import FileServiceBase from "../services/fileService/FileServiceBase";
 import Path from 'path';
 
 import Formidable from "formidable";
 
 
-@CD.Route("/fs")
-export class FileController extends ControllerBase
+@Route("/fs")
+export default class FileController extends ControllerBase
 {
      
     constructor(private _fileService : FileServiceBase)
@@ -14,7 +14,7 @@ export class FileController extends ControllerBase
         super();
     }
 
-    @CD.Action("/default-dir")    
+    @Action("/default-dir")    
     public async GetDefaultDir() : Promise<void>
     {
         try{
@@ -29,8 +29,8 @@ export class FileController extends ControllerBase
         }
     }
     
-    @CD.Action("/files")
-    @CD.Argument<string>("folder")
+    @Action("/files")
+    @Argument<string>("folder")
     public async GetAllFiles(folder : string) : Promise<void>
     {
         try{
@@ -45,8 +45,8 @@ export class FileController extends ControllerBase
         }
     }
     
-    @CD.Action("/folders")
-    @CD.Argument<string>("folder")
+    @Action("/folders")
+    @Argument<string>("folder")
     public async GetAllFolders(folder : string) : Promise<void>
     {
         try{
@@ -62,8 +62,8 @@ export class FileController extends ControllerBase
     }
 
     
-    @CD.Action("/download")
-    @CD.Argument<string>("file")
+    @Action("/download")
+    @Argument<string>("file")
     public async DownloadFile(file : string) : Promise<void>
     {
         try{
@@ -81,9 +81,9 @@ export class FileController extends ControllerBase
         }
     }
 
-    @CD.Verb(verbs.POST)
-    @CD.Action("/upload")
-    @CD.Argument<string, string>("folder", "filename")
+    @Verb(verbs.POST)
+    @Action("/upload")
+    @Argument<string, string>("folder", "filename")
     public async UploadFile(folder : string, filename : string) : Promise<void>
     {
         if(!filename)
@@ -127,7 +127,7 @@ export class FileController extends ControllerBase
         }
     }
     
-    @CD.Argument<string>("folder")
+    @Argument<string>("folder")
     public async CreateFolder(folder : string) : Promise<void>
     {
         try{

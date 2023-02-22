@@ -1,11 +1,14 @@
 
-import { StatusController } from "./controllers/StatusController";
-import { FileController } from "./controllers/FileController";
+import  StatusController  from "./controllers/StatusController";
+import  FileController  from "./controllers/FileController";
 
-import { ControllerBase, Application, IApplicationConfiguration, DependecyService } from "web_api_base";
+import { Application, IApplicationConfiguration, DependecyService} from "web_api_base";
+
 
 import FileServiceBase from "./services/fileService/FileServiceBase";
 import FileService from "./services/fileService/FileService";
+
+
 
 export default class App extends Application
 {
@@ -14,18 +17,18 @@ export default class App extends Application
         super();
     }
     
-    public override Configure(appConfig: IApplicationConfiguration): void
-    {      
-        appConfig.Host = "0.0.0.0";
-        
-        appConfig.Port = 5555;  
+    public override async ConfigureAsync(appConfig: IApplicationConfiguration): Promise<void>
+    {     
        
         this.UseCors();
 
         this.AddDependencyInjection(appConfig);       
 
+        await this.UseControllers();
+
     }    
-    
+
+   
     private AddDependencyInjection(appConfig: IApplicationConfiguration) : void
     {
         DependecyService.RegisterFor(FileServiceBase, FileService);
@@ -40,11 +43,9 @@ export default class App extends Application
         {
             let fs = DependecyService.Resolve<FileServiceBase>(FileServiceBase);
             return new FileController(fs);
-        })
-
-        ControllerBase.AppendController(StatusController,this); 
-
-        ControllerBase.AppendController(FileController,this); 
+        });
+       
     }
+
     
 }

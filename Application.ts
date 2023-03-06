@@ -32,13 +32,7 @@ export default class App extends Application
     private AddDependencyInjection(appConfig: IApplicationConfiguration) : void
     {
         DependecyService.RegisterFor(FileServiceBase, FileService);
-
-        DependecyService.Register(StatusController, ()=>
-        {
-            let fs = DependecyService.Resolve<FileServiceBase>(FileServiceBase);
-            return new StatusController(fs);
-        });       
-
+        
         DependecyService.Register(FileController, ()=>
         {
             let fs = DependecyService.Resolve<FileServiceBase>(FileServiceBase);

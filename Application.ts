@@ -1,7 +1,4 @@
 
-import  StatusController  from "./controllers/StatusController";
-import  FileController  from "./controllers/FileController";
-
 import { Application, IApplicationConfiguration, DependecyService} from "web_api_base";
 
 
@@ -31,14 +28,7 @@ export default class App extends Application
    
     private AddDependencyInjection(appConfig: IApplicationConfiguration) : void
     {
-        DependecyService.RegisterFor(FileServiceBase, FileService);
-        
-        DependecyService.Register(FileController, ()=>
-        {
-            let fs = DependecyService.Resolve<FileServiceBase>(FileServiceBase);
-            return new FileController(fs);
-        });
-       
+        DependecyService.RegisterFor(FileServiceBase, FileService);       
     }
 
     

@@ -1,4 +1,4 @@
-import { ControllerBase, HTTPVerbs as verbs,  Use, Verb, Action, Route, Argument  } from "web_api_base";
+import { ControllerBase, HTTPVerbs as verbs,  Use, Verb, Action, Route, Argument, Inject  } from "web_api_base";
 import FileServiceBase from "../services/fileService/FileServiceBase";
 import Path from 'path';
 
@@ -8,10 +8,13 @@ import Formidable from "formidable";
 @Route("/fs")
 export default class FileController extends ControllerBase
 {
-     
-    constructor(private _fileService : FileServiceBase)
+    @Inject()
+    private _fileService: FileServiceBase;
+
+    constructor(fileService: FileServiceBase)
     {
         super();
+        this._fileService = fileService;
     }
 
     @Action("/default-dir")    

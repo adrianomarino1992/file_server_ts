@@ -12,7 +12,6 @@ export class ControllerTest extends ControllerBase
 
     @ControllersDecorators.Action("Test")
     @ControllersDecorators.Verb(HTTPVerbs.GET)
-    @ControllersDecorators.Argument<string>('name')
     public TestAction(name : string)
     {
         console.log(name);
@@ -20,7 +19,6 @@ export class ControllerTest extends ControllerBase
 
     @ControllersDecorators.Action("Test")
     @ControllersDecorators.Verb(HTTPVerbs.GET)
-    @ControllersDecorators.Argument<string, number>('name', 'age')
     public TestActionTwo(name : string, age : number)
     {
         console.log(name, age);

@@ -8,14 +8,14 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Launch Program",
+            "name": "DEBUG",
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${file}",
-            "outFiles": [
-                "${workspaceFolder}/**/*.js"
-            ]
+            "runtimeExecutable": "node",
+            "runtimeArgs": ["./dist/Index.js", "--debug", "--dark"],
+            "console": "integratedTerminal", 
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

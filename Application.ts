@@ -4,6 +4,7 @@ import { Application, IApplicationConfiguration, DependecyService} from "web_api
 
 import FileServiceBase from "./services/fileService/FileServiceBase";
 import FileService from "./services/fileService/FileService";
+import { DocumentationDecorators } from "web_api_base/dist/decorators/documentation/DocumentationDecorators";
 
 
 
@@ -17,19 +18,17 @@ export default class App extends Application
     public override async ConfigureAsync(appConfig: IApplicationConfiguration): Promise<void>
     {     
        
+        appConfig.Port = 5555;
+
         this.UseCors();
 
-        this.AddDependencyInjection(appConfig);       
+        await this.UseControllersAsync();
 
-        await this.UseControllers();
+        appConfig.AddScoped(FileServiceBase, FileService);        
+
+        if(appConfig.DEBUG)
+            this.CreateDocumentation();
 
     }    
-
-   
-    private AddDependencyInjection(appConfig: IApplicationConfiguration) : void
-    {
-        DependecyService.RegisterFor(FileServiceBase, FileService);       
-    }
-
     
 }

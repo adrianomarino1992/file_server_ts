@@ -1,4 +1,4 @@
-import { ControllerBase, HTTPVerbs as verbs, Use, Verb, Action, Route } from "web_api_base";
+import { ControllerBase, HTTPVerbs as verbs, Verb, Action, Route, ActionResult } from "web_api_base";
 
 @Route("/status")
 export default class StatusController extends ControllerBase
@@ -12,9 +12,9 @@ export default class StatusController extends ControllerBase
    
     @Verb(verbs.GET)
     @Action("/check")
-    public CheckStatus() : void
+    public CheckStatus() : ActionResult
     {
-        this.OK({status : "OK"})
+        return this.OK({status : "OK"})
     }
     
 }

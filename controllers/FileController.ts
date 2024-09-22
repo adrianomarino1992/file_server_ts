@@ -1,4 +1,4 @@
-import { ControllerBase, HTTPVerbs as verbs,  Verb, Action, Route, Inject, ActionResult, File  } from "web_api_base";
+import { ControllerBase, Route, Inject, ActionResult, File, POST, GET  } from "web_api_base";
 import FileServiceBase from "../services/fileService/FileServiceBase";
 import Path from 'path';
 
@@ -17,76 +17,40 @@ export default class FileController extends ControllerBase
         this._fileService = fileService;
     }
 
-    @Action("/default-dir")    
+
+    @GET("/default-dir")    
     public async GetDefaultDir() : Promise<ActionResult>
-
     {
-        try{
-
-            return this.OK(await this._fileService.GetDefaultDir())
-
-        }
-        catch(err)
-        {
-            return this.Error({error : (err as Error).message});
-            
-        }
+        return this.OK(await this._fileService.GetDefaultDir());
     }
+
     
-    @Action("/files")
+    @GET("/files")
     public async GetAllFiles(folder : string) : Promise<ActionResult>
-
     {
-        try{
-
-            return this.OK(await this._fileService.GetAllFiles(folder))
-
-        }
-        catch(err)
-        {
-            return this.Error({error : (err as Error).message});
-            
-        }
+        return this.OK(await this._fileService.GetAllFiles(folder))
     }
+
+
     
-    @Action("/folders")
+    @GET("/folders")
     public async GetAllFolders(folder : string) : Promise<ActionResult>
-
     {
-        try{
-            
-            return this.OK(await this._fileService.GetAllForders(folder))
-
-        }
-        catch(err)
-        {
-            return this.Error({error : (err as Error).message});
-            
-        }
+        return this.OK(await this._fileService.GetAllForders(folder))
     }
 
     
-    @Action("/download")
+    @GET("/download")
     public async DownloadFileAsync(file : string) : Promise<ActionResult>
-
     {
-        try{
-
-            if(!await this._fileService.FileExists(file))
-                return this.BadRequest({error : `The file ${file} not exists`});
-            
-            return this.DownloadFile(file);
-
-        }
-        catch(err)
-        {
-           return this.Error({error : (err as Error).message});
-            
-        }
+        if(!await this._fileService.FileExists(file))
+            return this.BadRequest({error : `The file ${file} not exists`});
+        
+        return this.DownloadFile(file);
     }
 
-    @Verb(verbs.POST)
-    @Action("/upload")
+    
+    @POST("/upload")
     public async UploadFile(folder : string, file : File) : Promise<ActionResult>
     {
         if(!await this._fileService.DirectoryExists(folder))
@@ -98,22 +62,15 @@ export default class FileController extends ControllerBase
 
         return this.OK({ created : true, message : `The file ${newfile} was uploaded`});    
     }
-    
+
+
+
+    @GET()
     public async CreateFolder(folder : string) : Promise<ActionResult>
-
     {
-        try{
+        await this._fileService.CreateDirectory(folder);
 
-            await this._fileService.CreateDirectory(folder);
-
-            return this.OK({ created : true, message : `The folder ${folder} was created`});
-
-        }
-        catch(err)
-        {
-            return this.Error({error : (err as Error).message});
-            
-        }
+        return this.OK({ created : true, message : `The folder ${folder} was created`});
     }
 
     
